@@ -9,12 +9,13 @@ pipeline {
                 bat 'docker build -t conference-app:latest .'
             }
         }
-        stage('K8s Deploy') {
+       stage('K8s Deploy') {
             steps {
                 echo 'Deploying to Kubernetes...'
-                // This tells Kubernetes to run the image
-                bat 'kubectl apply -f deployment.yaml'
+                // Added --validate=false to bypass the connection error
+                bat 'kubectl apply -f deployment.yaml --validate=false'
             }
+        }
         }
         stage('Verify') {
             steps {
