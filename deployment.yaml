@@ -3,18 +3,19 @@ kind: Deployment
 metadata:
   name: conference-deployment
 spec:
-  replicas: 2 # Runs two copies of your site for reliability
+  replicas: 2
   selector:
     matchLabels:
-      app: conference-web
+      app: conference-app
   template:
     metadata:
       labels:
-        app: conference-web
+        app: conference-app
     spec:
       containers:
       - name: conference-container
-        image: yourdockerhub/conference-app:latest
+        image: conference-app:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 80
 ---
@@ -23,9 +24,11 @@ kind: Service
 metadata:
   name: conference-service
 spec:
-  type: LoadBalancer # Exposes the app to the internet
-  ports:
-  - port: 80
-    targetPort: 80
+  type: NodePort
   selector:
-    app: conference-web
+    app: conference-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30001
