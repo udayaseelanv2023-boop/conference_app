@@ -9,13 +9,12 @@ pipeline {
         stage('K8s Deploy') {
             steps {
                 echo 'Deploying using Internal Config...'
-                // Using '.' tells Jenkins to look inside the current project folder
-                bat 'kubectl apply -f deployment.yaml --kubeconfig="k8s-config-internal" --insecure-skip-tls-verify --validate=false'
+                bat 'kubectl apply -f deployment.yaml --kubeconfig="C:\\Users\\DELL\\.kube\\k8s-config-internal" --insecure-skip-tls-verify --validate=false'
             }
         }
         stage('Verify') {
             steps {
-                bat 'kubectl get pods --kubeconfig="k8s-config-internal" --insecure-skip-tls-verify'
+                bat 'kubectl get pods --kubeconfig="C:\\Users\\DELL\\.kube\\k8s-config-internal" --insecure-skip-tls-verify'
             }
         }
     }
