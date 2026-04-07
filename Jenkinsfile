@@ -12,9 +12,10 @@ pipeline {
                 bat 'docker build -t conference-app:latest .'
             }
         }
-      stage('K8s Deploy') {
+     stage('K8s Deploy') {
     steps {
         echo 'Deploying to Kubernetes...'
+        // Ensure this path matches the file we just verified in PowerShell
         bat 'kubectl apply -f deployment.yaml --kubeconfig="C:\\k8s-config\\config" --context=docker-desktop --insecure-skip-tls-verify --validate=false'
     }
 }
