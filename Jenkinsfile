@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    
+    environment {
+        // This tells Jenkins exactly where your Kubernetes credentials are
+        KUBECONFIG = 'C:/Users/DELL/.kube/config'
+    }
 
     stages {
         stage('Docker Build') {
@@ -11,13 +16,13 @@ pipeline {
         stage('K8s Deploy') {
             steps {
                 echo 'Deploying to Kubernetes...'
-                // Added --validate=false to bypass the connection confusion error
-                bat 'kubectl apply -f deployment.yaml --validate=false'
+                // Force kubectl to use the docker-desktop context
+                bat 'kubectl apply -f deployment.yaml --context=docker-desktop --validate=false'
             }
         }
         stage('Verify') {
             steps {
-                echo 'Checking Deployment Status...'
+                echo 'Final Check...'
                 bat 'kubectl get pods'
                 bat 'kubectl get service'
             }
