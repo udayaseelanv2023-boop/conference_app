@@ -12,11 +12,10 @@ pipeline {
                 bat 'docker build -t conference-app:latest .'
             }
         }
-        stage('K8s Deploy') {
+       stage('K8s Deploy') {
     steps {
         echo 'Deploying to Kubernetes...'
-        // Adding the --kubeconfig flag directly to the command
-        bat 'kubectl apply -f deployment.yaml --kubeconfig="C:\\Users\\DELL\\.kube\\config" --context=docker-desktop --insecure-skip-tls-verify'
+        bat 'kubectl apply -f deployment.yaml --kubeconfig="C:\\Users\\DELL\\.kube\\config" --context=docker-desktop --insecure-skip-tls-verify --validate=false'
     }
 }
         stage('Verify') {
