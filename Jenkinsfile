@@ -13,12 +13,12 @@ pipeline {
             }
         }
         stage('K8s Deploy') {
-            steps {
-                echo 'Deploying to Kubernetes...'
-                // Added --insecure-skip-tls-verify to bypass the certificate error
-                bat 'kubectl apply -f deployment.yaml --context=docker-desktop --validate=false --insecure-skip-tls-verify'
-            }
-        }
+    steps {
+        echo 'Deploying to Kubernetes...'
+        // Adding the --kubeconfig flag directly to the command
+        bat 'kubectl apply -f deployment.yaml --kubeconfig="C:\\Users\\DELL\\.kube\\config" --context=docker-desktop --insecure-skip-tls-verify'
+    }
+}
         stage('Verify') {
             steps {
                 echo 'Final Check...'
