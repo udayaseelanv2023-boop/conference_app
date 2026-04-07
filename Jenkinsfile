@@ -1,21 +1,22 @@
 pipeline {
     agent any
+    
     stages {
-        stage('Checkout') {
+        stage('Clone') {
             steps {
-                git 'https://github.com/yourusername/conference-repo.git'
+                git 'https://github.com/udayaseelanv2023-boop/conference_app.git'
             }
         }
-        stage('Build Docker Image') {
+        stage('Docker Build') {
             steps {
+                // This builds the image locally
                 sh 'docker build -t conference-app:latest .'
             }
         }
-        stage('Push to Registry') {
+        stage('K8s Deploy') {
             steps {
-                // This assumes you are logged into Docker Hub
-                sh 'docker tag conference-app:latest yourdockerhub/conference-app:latest'
-                sh 'docker push yourdockerhub/conference-app:latest'
+                // This pushes the app to your local Kubernetes cluster
+                sh 'kubectl apply -f deployment.yaml'
             }
         }
     }
