@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conference-deployment
+spec:
+  replicas: 2 # Runs two copies of your site for reliability
+  selector:
+    matchLabels:
+      app: conference-web
+  template:
+    metadata:
+      labels:
+        app: conference-web
+    spec:
+      containers:
+      - name: conference-container
+        image: yourdockerhub/conference-app:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conference-service
+spec:
+  type: LoadBalancer # Exposes the app to the internet
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: conference-web
